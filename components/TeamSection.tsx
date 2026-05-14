@@ -16,9 +16,9 @@ const teamMembers = [
   },
   {
     id: "02",
-    name: "Vixith",
+    name: "Vexith",
     role: "Lead Engineer",
-    specialty: "FULL-STACK DEV",
+    specialty: "FRONT-END DEV",
     bio: "Turns complex problems into elegant code. Obsessed with performance and clean architecture.",
     skills: ["React", "Node.js", "Cloud Infra"],
     accent: "#7b2fff",
@@ -42,6 +42,16 @@ const teamMembers = [
     bio: "Transforms user insight into product decisions that scale. Where research meets market reality.",
     skills: ["Strategy", "Research", "Analytics"],
     accent: "#00ff88",
+    status: "ACTIVE",
+  },
+  {
+    id: "05",
+    name: "Surya",
+    role: "Operations Manager",
+    specialty: "Backend DEV",
+    bio: "Transforms user insight into product decisions that scale. Where research meets market reality.",
+    skills: ["Backend", "Optimization", "Next.js"],
+    accent: "#ffdd00",
     status: "ACTIVE",
   },
 ];
