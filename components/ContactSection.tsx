@@ -6,8 +6,8 @@ import { motion } from "framer-motion";
 const channels = [
   { icon: "◈", label: "EMAIL", value: "cloudmint.official.in@gmail.com", link: "mailto:cloudmint.official.in@gmail.com" },
   { icon: "⬡", label: "TWITTER", value: "@cloudmint", link: "#" },
-  { icon: "◎", label: "GITHUB", value: "github.com/cloudmint", link: "#" },
-  { icon: "△", label: "LINKEDIN", value: "/company/cloudmint", link: "#" },
+  { icon: "◎", label: "GITHUB", value: "github.com/cloudmint", link: "https://github.com/CLOUD-MINT-CO" },
+  { icon: "△", label: "LINKEDIN", value: "/company/cloudmint", link: "https://www.linkedin.com/in/cloud-mint-95964840a/" },
 ];
 
 export default function ContactSection() {
@@ -333,7 +333,7 @@ export default function ContactSection() {
             color: "var(--text-muted)",
             letterSpacing: "0.2em",
           }}>
-            © 2026 TEAM CLOUDMINT — ALL SYSTEMS OPERATIONAL
+            © 2026 TEAM CLOUDMINT — ALL SYSTEMS OPERATIONAL | ALL RIGHTS RESERVED
           </span>
           <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
             <div style={{ width: "4px", height: "4px", background: "var(--accent-cyan)", borderRadius: "50%", boxShadow: "0 0 6px var(--accent-cyan)" }} />

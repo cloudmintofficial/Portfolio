@@ -76,7 +76,7 @@ export default function AboutSection() {
         </div>
 
         {/* Two column layout */}
-        <div style={{
+        <div className="about-grid" style={{
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "80px",
@@ -140,7 +140,7 @@ export default function AboutSection() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                whileHover={{ x: 8, background: "rgba(123,47,255,0.04)" }}
+                whileHover={{ x: 8, backgroundColor: "rgba(123,47,255,0.04)" }}
                 style={{
                   display: "flex",
                   gap: "20px",
@@ -239,6 +239,13 @@ export default function AboutSection() {
           ))}
         </div>
       </div>
+      <style jsx>{`
+        @media (max-width: 992px) {
+          .about-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
     </section>
   );
 }

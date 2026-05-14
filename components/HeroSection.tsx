@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 
 const stats = [
-  { value: "04", label: "TEAM MEMBERS" },
+  { value: "05", label: "TEAM MEMBERS" },
   { value: "∞", label: "CREATIVITY" },
   { value: "01", label: "VISION" },
 ];
@@ -21,7 +21,7 @@ export default function HeroSection() {
 
   return (
     <section
-      id="hero"
+      id="hero" 
       className="grid-bg"
       style={{
         minHeight: "100vh",

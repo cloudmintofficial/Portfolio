@@ -321,7 +321,7 @@ export default function TeamSection() {
         {/* Cards */}
         <div style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(256px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
           gap: "18px",
         }}>
           {teamMembers.map((member, i) => (
