@@ -24,21 +24,21 @@ export default function DataStreams() {
     let animId: number;
 
     const draw = () => {
-      // Very subtle fade — keeps trails short
-      ctx.fillStyle = "rgba(2, 4, 8, 0.06)";
+      // Significantly lighter fade to avoid darkness
+      ctx.fillStyle = "rgba(5, 11, 22, 0.12)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       for (let i = 0; i < drops.length; i++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        const opacity = Math.random() * 0.25 + 0.04;
-        ctx.fillStyle = `rgba(0, 102, 255, ${opacity})`;
-        ctx.font = "11px 'Courier New', monospace";
+        const opacity = Math.random() * 0.6 + 0.2; // Peak opacity 0.8
+        ctx.fillStyle = `rgba(0, 160, 255, ${opacity})`;
+        ctx.font = "12px 'Courier New', monospace";
         ctx.fillText(char, i * 22, drops[i] * 22);
 
-        if (drops[i] * 22 > canvas.height && Math.random() > 0.97) {
+        if (drops[i] * 22 > canvas.height && Math.random() > 0.98) {
           drops[i] = 0;
         }
-        drops[i] += 0.5;
+        drops[i] += 0.6;
       }
 
       animId = requestAnimationFrame(draw);
@@ -64,7 +64,7 @@ export default function DataStreams() {
         width: "100%",
         height: "100%",
         zIndex: 1,          // stays behind all content (sections use zIndex 2+)
-        opacity: 0.5,
+        opacity: 0.7,
         pointerEvents: "none",
       }}
     />

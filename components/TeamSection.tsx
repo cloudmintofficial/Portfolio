@@ -63,7 +63,7 @@ function MemberCard({ member, index }: { member: typeof teamMembers[0]; index: n
   const cardRef = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || window.innerWidth < 1024) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / rect.width - 0.5) * 16;
     const y = ((e.clientY - rect.top) / rect.height - 0.5) * -16;
@@ -82,162 +82,100 @@ function MemberCard({ member, index }: { member: typeof teamMembers[0]; index: n
       onMouseLeave={() => { setHovered(false); setRotX(0); setRotY(0); }}
       onMouseMove={handleMouseMove}
       animate={{ rotateY: rotY, rotateX: rotX }}
-      style={{
-        transformStyle: "preserve-3d",
-        position: "relative",
-        cursor: "none",
-        perspective: "800px",
-      }}
+      className="relative cursor-none h-full"
+      style={{ transformStyle: "preserve-3d", perspective: "800px" }}
     >
       {/* Animated holo border */}
-      <div style={{
-        position: "absolute",
-        inset: "-1px",
-        background: hovered
-          ? `linear-gradient(135deg, ${member.accent}cc, transparent 45%, ${member.accent}44)`
-          : "linear-gradient(135deg, rgba(255,255,255,0.04), transparent)",
-        zIndex: 0,
-        transition: "all 0.4s ease",
-      }} />
+      <div className="absolute -inset-[1px] transition-all duration-400 z-0"
+        style={{
+          background: hovered
+            ? `linear-gradient(135deg, ${member.accent}cc, transparent 45%, ${member.accent}44)`
+            : "linear-gradient(135deg, rgba(255,255,255,0.04), transparent)",
+        }}
+      />
 
-      <div style={{
-        position: "relative",
-        zIndex: 1,
-        background: "var(--bg-card)",
-        border: "1px solid rgba(255,255,255,0.04)",
-        padding: "28px",
-        overflow: "hidden",
-      }}>
+      <div className="relative z-[1] bg-[var(--bg-card)] border border-[rgba(255,255,255,0.04)] p-6 md:p-7 overflow-hidden h-full flex flex-col">
         {/* Corner brackets */}
-        {(["tl","tr","bl","br"] as const).map((c) => (
-          <div key={c} style={{
-            position: "absolute",
-            width: "12px",
-            height: "12px",
-            top: c.startsWith("t") ? "10px" : "auto",
-            bottom: c.startsWith("b") ? "10px" : "auto",
-            left: c.endsWith("l") ? "10px" : "auto",
-            right: c.endsWith("r") ? "10px" : "auto",
-            borderTop: c.startsWith("t") ? `1px solid ${member.accent}` : "none",
-            borderBottom: c.startsWith("b") ? `1px solid ${member.accent}` : "none",
-            borderLeft: c.endsWith("l") ? `1px solid ${member.accent}` : "none",
-            borderRight: c.endsWith("r") ? `1px solid ${member.accent}` : "none",
-            opacity: hovered ? 1 : 0.3,
-            transition: "opacity 0.3s",
-          }} />
+        {(["tl", "tr", "bl", "br"] as const).map((c) => (
+          <div key={c} className="absolute w-3 h-3 transition-opacity duration-300"
+            style={{
+              top: c.startsWith("t") ? "10px" : "auto",
+              bottom: c.startsWith("b") ? "10px" : "auto",
+              left: c.endsWith("l") ? "10px" : "auto",
+              right: c.endsWith("r") ? "10px" : "auto",
+              borderTop: c.startsWith("t") ? `1px solid ${member.accent}` : "none",
+              borderBottom: c.startsWith("b") ? `1px solid ${member.accent}` : "none",
+              borderLeft: c.endsWith("l") ? `1px solid ${member.accent}` : "none",
+              borderRight: c.endsWith("r") ? `1px solid ${member.accent}` : "none",
+              opacity: hovered ? 1 : 0.3,
+            }}
+          />
         ))}
 
         {/* Top row */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" }}>
-          <span style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "10px",
-            color: member.accent,
-            letterSpacing: "0.2em",
-            opacity: 0.7,
-          }}>
+        <div className="flex justify-between items-center mb-5">
+          <span className="font-['Space_Mono'] text-[9px] md:text-[10px] tracking-[0.2em] opacity-70" style={{ color: member.accent }}>
             MEMBER_{member.id}
           </span>
-          <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
-            <div style={{
-              width: "5px", height: "5px", borderRadius: "50%",
-              background: "#00ff88",
-              boxShadow: "0 0 8px #00ff88",
-              animation: "pulse 2s ease-in-out infinite",
-            }} />
-            <span style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "8px", color: "#00ff88", letterSpacing: "0.2em",
-            }}>
+          <div className="flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#00ff88] shadow-[0_0_8px_#00ff88] animate-[pulse_2s_ease-in-out_infinite]" />
+            <span className="font-['Space_Mono'] text-[8px] text-[#00ff88] tracking-[0.2em] uppercase">
               {member.status}
             </span>
           </div>
         </div>
 
         {/* Avatar */}
-        <div style={{ position: "relative", width: "76px", height: "76px", marginBottom: "20px" }}>
-          <div style={{
-            width: "76px", height: "76px",
-            border: `2px solid ${member.accent}`,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            background: `linear-gradient(135deg, ${member.accent}12, ${member.accent}04)`,
-            overflow: "hidden",
-            position: "relative",
-          }}>
-            <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
+        <div className="relative w-16 h-16 md:w-[76px] md:h-[76px] mb-5">
+          <div className="w-full h-full border-2 flex items-center justify-center overflow-hidden relative"
+            style={{
+              borderColor: member.accent,
+              background: `linear-gradient(135deg, ${member.accent}12, ${member.accent}04)`,
+            }}
+          >
+            <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
               <circle cx="24" cy="18" r="10" stroke={member.accent} strokeWidth="1.5" fill={`${member.accent}18`} />
               <path d="M8 44c0-8.837 7.163-16 16-16s16 7.163 16 16" stroke={member.accent} strokeWidth="1.5" fill={`${member.accent}18`} />
             </svg>
             {hovered && (
-              <div style={{
-                position: "absolute",
-                left: 0, width: "100%", height: "2px",
-                background: `linear-gradient(to right, transparent, ${member.accent}, transparent)`,
-                animation: "scanline-anim 1.4s linear infinite",
-              }} />
+              <div className="absolute left-0 w-full h-[2px] animate-[scanline-anim_1.4s_linear_infinite]"
+                style={{ background: `linear-gradient(to right, transparent, ${member.accent}, transparent)` }}
+              />
             )}
           </div>
           {hovered && (
-            <div style={{
-              position: "absolute",
-              inset: "-8px",
-              border: `1px solid ${member.accent}`,
-              borderRadius: "1px",
-              animation: "pulse-ring 1.8s ease-out infinite",
-              opacity: 0,
-            }} />
+            <div className="absolute -inset-2 border rounded-[1px] animate-[pulse-ring_1.8s_ease-out_infinite] opacity-0"
+              style={{ borderColor: member.accent }}
+            />
           )}
         </div>
 
         {/* Name */}
-        <h3 style={{
-          fontFamily: "'Orbitron', monospace",
-          fontSize: "17px", fontWeight: 800,
-          color: "var(--text-primary)",
-          letterSpacing: "0.04em",
-          marginBottom: "3px",
-        }}>
+        <h3 className="font-['Orbitron'] text-base md:text-[17px] font-extrabold text-[var(--text-primary)] tracking-[0.04em] mb-1">
           {member.name}
         </h3>
-        <div style={{
-          fontFamily: "'Space Mono', monospace",
-          fontSize: "9px", color: member.accent, letterSpacing: "0.25em",
-          marginBottom: "14px",
-        }}>
+        <div className="font-['Space_Mono'] text-[9px] tracking-[0.25em] mb-4 uppercase" style={{ color: member.accent }}>
           {member.role}
         </div>
 
         {/* Badge */}
-        <div style={{
-          display: "inline-block",
-          padding: "3px 10px",
-          border: `1px solid ${member.accent}33`,
-          background: `${member.accent}0a`,
-          marginBottom: "14px",
-        }}>
-          <span style={{ fontFamily: "'Space Mono', monospace", fontSize: "8px", color: member.accent, letterSpacing: "0.2em" }}>
+        <div className="inline-block px-2.5 py-1 border mb-4 self-start"
+          style={{ borderColor: `${member.accent}33`, background: `${member.accent}0a` }}
+        >
+          <span className="font-['Space_Mono'] text-[8px] tracking-[0.2em] uppercase" style={{ color: member.accent }}>
             {member.specialty}
           </span>
         </div>
 
         {/* Bio */}
-        <p style={{
-          fontSize: "13px", color: "var(--text-secondary)",
-          lineHeight: 1.65, marginBottom: "18px",
-        }}>
+        <p className="text-xs md:text-[13px] text-[var(--text-secondary)] leading-[1.65] mb-6 flex-grow">
           {member.bio}
         </p>
 
         {/* Skills */}
-        <div style={{ display: "flex", gap: "6px", flexWrap: "wrap" }}>
+        <div className="flex gap-1.5 flex-wrap">
           {member.skills.map((s) => (
-            <span key={s} style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "8px", padding: "3px 9px",
-              background: "rgba(255,255,255,0.03)",
-              border: "1px solid rgba(255,255,255,0.07)",
-              color: "var(--text-muted)", letterSpacing: "0.1em",
-            }}>
+            <span key={s} className="font-['Space_Mono'] text-[8px] px-2 py-0.5 bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.07)] text-[var(--text-muted)] tracking-[0.1em] uppercase">
               {s}
             </span>
           ))}
@@ -247,21 +185,15 @@ function MemberCard({ member, index }: { member: typeof teamMembers[0]; index: n
         <motion.div
           animate={{ scaleX: hovered ? 1 : 0 }}
           transition={{ duration: 0.35 }}
-          style={{
-            position: "absolute", bottom: 0, left: 0,
-            height: "2px", width: "100%",
-            background: `linear-gradient(to right, ${member.accent}, transparent)`,
-            transformOrigin: "left",
-          }}
+          className="absolute bottom-0 left-0 h-[2px] w-full origin-left"
+          style={{ background: `linear-gradient(to right, ${member.accent}, transparent)` }}
         />
 
         {/* Background glow */}
         {hovered && (
-          <div style={{
-            position: "absolute", inset: 0,
-            background: `radial-gradient(ellipse at 40% 40%, ${member.accent}07 0%, transparent 65%)`,
-            pointerEvents: "none",
-          }} />
+          <div className="absolute inset-0 pointer-events-none"
+            style={{ background: `radial-gradient(ellipse at 40% 40%, ${member.accent}07 0%, transparent 65%)` }}
+          />
         )}
       </div>
     </motion.div>
@@ -276,25 +208,22 @@ export default function TeamSection() {
     <section
       id="team"
       ref={ref}
-      style={{ padding: "130px 0", position: "relative", zIndex: 2 }}
+      className="py-24 md:py-32 relative z-[2]"
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px" }}>
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10">
 
         {/* Header */}
-        <div style={{ marginBottom: "72px" }}>
+        <div className="mb-14 md:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}
+            className="flex items-center gap-3 mb-4"
           >
-            <span style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "10px", color: "var(--accent-cyan)", letterSpacing: "0.4em",
-            }}>
+            <span className="font-['Space_Mono'] text-[10px] text-[var(--accent-cyan)] tracking-[0.4em] uppercase">
               02 — THE COLLECTIVE
             </span>
-            <div style={{ flex: 1, height: "1px", background: "rgba(0,245,255,0.1)" }} />
+            <div className="flex-1 h-[1px] bg-[rgba(0,245,255,0.1)]" />
           </motion.div>
 
           <motion.h2
@@ -302,30 +231,21 @@ export default function TeamSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            style={{
-              fontFamily: "'Orbitron', monospace",
-              fontSize: "clamp(34px, 5vw, 60px)",
-              fontWeight: 900,
-              letterSpacing: "-0.02em",
-              lineHeight: 1.05,
-              color: "var(--text-primary)",
-            }}
+            className="font-['Orbitron'] text-[clamp(32px,6vw,60px)] font-black tracking-[-0.02em] leading-tight text-[var(--text-primary)]"
           >
             MEET THE<br />
-            <span style={{ color: "transparent", WebkitTextStroke: "2px var(--accent-cyan)" }}>
+            <span className="text-transparent" style={{ WebkitTextStroke: "2px var(--accent-cyan)" }}>
               ARCHITECTS
             </span>
           </motion.h2>
         </div>
 
-        {/* Cards */}
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-          gap: "18px",
-        }}>
+        {/* Cards — Centered for uneven counts */}
+        <div className="flex flex-wrap justify-center gap-6 md:gap-8">
           {teamMembers.map((member, i) => (
-            <MemberCard key={member.id} member={member} index={i} />
+            <div key={member.id} className="w-full sm:w-[calc(50%-16px)] lg:w-[calc(33.333%-22px)] max-w-[380px]">
+              <MemberCard member={member} index={i} />
+            </div>
           ))}
         </div>
       </div>
