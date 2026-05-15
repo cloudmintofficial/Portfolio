@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Cloud Mint",
-  description: "A cutting-edge team portfolio showcasing our collective vision",
+  description: "A collective of innovative minds pushing the boundaries of design, engineering, and digital experiences.",
 };
 
 export default function RootLayout({
