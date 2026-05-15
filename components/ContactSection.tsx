@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 const channels = [
@@ -17,29 +17,29 @@ export default function ContactSection() {
   const [isSending, setIsSending] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setIsSending(true);
+    e.preventDefault();
+    setIsSending(true);
 
-  try {
-    const response = await fetch("/api/send", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
-    });
+    try {
+      const response = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
 
-    if (response.ok) {
-      setSubmitted(true);
-      setForm({ name: "", email: "", message: "" }); // Reset form
-      setTimeout(() => setSubmitted(false), 4000);
-    } else {
-      alert("Transmission failed. Please check your connection.");
+      if (response.ok) {
+        setSubmitted(true);
+        setForm({ name: "", email: "", message: "" }); // Reset form
+        setTimeout(() => setSubmitted(false), 4000);
+      } else {
+        alert("Transmission failed. Please check your connection.");
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsSending(false);
     }
-  } catch (err) {
-    console.error(err);
-  } finally {
-    setIsSending(false);
-  }
-};
+  };
 
   const inputStyle = (field: string) => ({
     width: "100%",
@@ -58,67 +58,42 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      style={{
-        padding: "140px 0 80px",
-        position: "relative",
-        zIndex: 1,
-      }}
+      className="py-24 md:py-32 relative z-[1]"
     >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 40px" }}>
+      <div className="max-w-[1200px] mx-auto px-6 md:px-10">
         {/* Header */}
-        <div style={{ marginBottom: "80px" }}>
+        <div className="mb-12 md:mb-20">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}
+            className="flex items-center gap-3 mb-4"
           >
-            <span style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "10px",
-              color: "var(--accent-pink)",
-              letterSpacing: "0.4em",
-            }}>
+            <span className="font-['Space_Mono'] text-[10px] text-[var(--accent-pink)] tracking-[0.4em] uppercase">
               04 — CONNECT
             </span>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255,0,170,0.2)" }} />
+            <div className="flex-1 h-[1px] bg-[rgba(255,0,170,0.2)]" />
           </motion.div>
 
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            style={{
-              fontFamily: "'Orbitron', monospace",
-              fontSize: "clamp(36px, 5vw, 64px)",
-              fontWeight: 900,
-              lineHeight: 1,
-              color: "var(--text-primary)",
-            }}
+            className="font-['Orbitron'] text-[clamp(32px,8vw,64px)] font-black leading-none text-[var(--text-primary)]"
           >
             START A<br />
-            <span style={{ color: "var(--accent-pink)" }}>TRANSMISSION</span>
+            <span className="text-[var(--accent-pink)]">TRANSMISSION</span>
           </motion.h2>
         </div>
 
-        <div style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "80px",
-          alignItems: "start",
-        }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start">
           {/* Left: Contact channels */}
           <div>
-            <p style={{
-              fontSize: "15px",
-              color: "var(--text-secondary)",
-              lineHeight: 1.8,
-              marginBottom: "48px",
-            }}>
+            <p className="text-sm md:text-[15px] text-[var(--text-secondary)] leading-[1.8] mb-10 md:mb-12">
               We&apos;re always looking for bold ideas and like-minded collaborators. Reach out through any channel and we&apos;ll respond within one rotation of the Earth.
             </p>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "2px" }}>
+            <div className="flex flex-col gap-0.5">
               {channels.map((ch, i) => (
                 <motion.a
                   key={ch.label}
@@ -128,42 +103,18 @@ export default function ContactSection() {
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.08 }}
                   whileHover={{ x: 10, borderLeftColor: "rgba(255,0,170,0.8)" }}
-                  style={{
-                    display: "flex",
-                    gap: "20px",
-                    alignItems: "center",
-                    padding: "18px 20px",
-                    borderLeft: "1px solid rgba(255,0,170,0.2)",
-                    textDecoration: "none",
-                    cursor: "none",
-                    transition: "all 0.3s ease",
-                  }}
+                  className="flex gap-5 items-center p-4 md:p-[18px_20px] border-l border-[rgba(255,0,170,0.2)] no-underline cursor-none transition-all duration-300"
                 >
-                  <span style={{ color: "var(--accent-pink)", fontSize: "18px", minWidth: "24px" }}>{ch.icon}</span>
-                  <div>
-                    <div style={{
-                      fontFamily: "'Space Mono', monospace",
-                      fontSize: "9px",
-                      color: "var(--text-muted)",
-                      letterSpacing: "0.3em",
-                      marginBottom: "2px",
-                    }}>
+                  <span className="text-[var(--accent-pink)] text-lg min-w-[24px]">{ch.icon}</span>
+                  <div className="overflow-hidden">
+                    <div className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.3em] mb-0.5 uppercase">
                       {ch.label}
                     </div>
-                    <div style={{
-                      fontFamily: "'Syne', sans-serif",
-                      fontSize: "14px",
-                      color: "var(--text-secondary)",
-                      fontWeight: 500,
-                    }}>
+                    <div className="font-['Syne'] text-xs md:text-sm text-[var(--text-secondary)] font-medium truncate">
                       {ch.value}
                     </div>
                   </div>
-                  <div style={{
-                    marginLeft: "auto",
-                    color: "rgba(255,0,170,0.4)",
-                    fontSize: "12px",
-                  }}>→</div>
+                  <div className="ml-auto text-[rgba(255,0,170,0.4)] text-xs">→</div>
                 </motion.a>
               ))}
             </div>
@@ -175,52 +126,26 @@ export default function ContactSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
+            className="w-full"
           >
             {submitted ? (
               <motion.div
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                style={{
-                  border: "1px solid rgba(0,245,255,0.3)",
-                  padding: "60px 40px",
-                  textAlign: "center",
-                  background: "rgba(0,245,255,0.03)",
-                }}
+                className="glass p-12 md:p-[60px_40px] text-center"
               >
-                <div style={{
-                  fontFamily: "'Orbitron', monospace",
-                  fontSize: "32px",
-                  color: "var(--accent-cyan)",
-                  marginBottom: "12px",
-                }}>✓</div>
-                <div style={{
-                  fontFamily: "'Orbitron', monospace",
-                  fontSize: "14px",
-                  color: "var(--accent-cyan)",
-                  letterSpacing: "0.2em",
-                  marginBottom: "8px",
-                }}>
-                  TRANSMISSION SENT
+                <div className="font-['Orbitron'] text-[32px] text-[var(--accent-cyan)] mb-3">✓</div>
+                <div className="font-['Orbitron'] text-sm text-[var(--accent-cyan)] tracking-[0.2em] mb-2 uppercase">
+                  Transmission Sent
                 </div>
-                <div style={{
-                  fontFamily: "'Space Mono', monospace",
-                  fontSize: "11px",
-                  color: "var(--text-muted)",
-                }}>
+                <div className="font-['Space_Mono'] text-[11px] text-[var(--text-muted)]">
                   We&apos;ll be in touch soon.
                 </div>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: "9px",
-                    color: "var(--text-muted)",
-                    letterSpacing: "0.3em",
-                    display: "block",
-                    marginBottom: "6px",
-                  }}>
+                  <label className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.3em] block mb-1.5 uppercase">
                     IDENTIFIER
                   </label>
                   <input
@@ -236,14 +161,7 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: "9px",
-                    color: "var(--text-muted)",
-                    letterSpacing: "0.3em",
-                    display: "block",
-                    marginBottom: "6px",
-                  }}>
+                  <label className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.3em] block mb-1.5 uppercase">
                     CHANNEL
                   </label>
                   <input
@@ -259,14 +177,7 @@ export default function ContactSection() {
                 </div>
 
                 <div>
-                  <label style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: "9px",
-                    color: "var(--text-muted)",
-                    letterSpacing: "0.3em",
-                    display: "block",
-                    marginBottom: "6px",
-                  }}>
+                  <label className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.3em] block mb-1.5 uppercase">
                     MESSAGE
                   </label>
                   <textarea
@@ -282,27 +193,13 @@ export default function ContactSection() {
                 </div>
 
                 <motion.button
-                 type="submit"
-  disabled={isSending}
+                  type="submit"
+                  disabled={isSending}
                   whileHover={{ boxShadow: "0 0 40px rgba(255,0,170,0.4)", scale: 1.01 }}
                   whileTap={{ scale: 0.98 }}
-                  style={{
-                    padding: "16px",
-                    background: "transparent",
-                    border: "1px solid rgba(255,0,170,0.6)",
-                    color: "var(--accent-pink)",
-                    fontFamily: "'Orbitron', monospace",
-                    fontSize: "12px",
-                    fontWeight: 700,
-                    letterSpacing: "0.3em",
-                    cursor: "none",
-                    marginTop: "8px",
-                    position: "relative",
-                    overflow: "hidden",
-                    transition: "all 0.3s ease",
-                  }}
+                  className="p-4 bg-transparent border border-[rgba(255,0,170,0.6)] text-[var(--accent-pink)] font-['Orbitron'] text-xs font-bold tracking-[0.3em] cursor-none mt-2 relative overflow-hidden transition-all duration-300 disabled:opacity-50"
                 >
-                 {isSending ? "ENCRYPTING..." : "INITIATE CONTACT"}
+                  {isSending ? "ENCRYPTING..." : "INITIATE CONTACT"}
                 </motion.button>
               </form>
             )}
@@ -310,39 +207,16 @@ export default function ContactSection() {
         </div>
 
         {/* Footer */}
-        <div style={{
-          marginTop: "100px",
-          paddingTop: "32px",
-          borderTop: "1px solid rgba(255,255,255,0.04)",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}>
-          <span style={{
-            fontFamily: "'Orbitron', monospace",
-            fontSize: "14px",
-            fontWeight: 800,
-            color: "var(--accent-cyan)",
-            letterSpacing: "0.3em",
-          }}>
+        <div className="mt-24 md:mt-32 pt-8 border-t border-[rgba(255,255,255,0.04)] flex flex-col md:flex-row gap-8 justify-between items-center text-center md:text-left">
+          <span className="font-['Orbitron'] text-sm font-extrabold text-[var(--accent-cyan)] tracking-[0.3em]">
             CLOUDMINT
           </span>
-          <span style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "10px",
-            color: "var(--text-muted)",
-            letterSpacing: "0.2em",
-          }}>
+          <span className="font-['Space_Mono'] text-[9px] md:text-[10px] text-[var(--text-muted)] tracking-[0.15em] max-w-[400px]">
             © 2026 TEAM CLOUDMINT — ALL SYSTEMS OPERATIONAL | ALL RIGHTS RESERVED
           </span>
-          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-            <div style={{ width: "4px", height: "4px", background: "var(--accent-cyan)", borderRadius: "50%", boxShadow: "0 0 6px var(--accent-cyan)" }} />
-            <span style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "9px",
-              color: "var(--text-muted)",
-              letterSpacing: "0.2em",
-            }}>
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-1 bg-[var(--accent-cyan)] rounded-full shadow-[0_0_6px_var(--accent-cyan)]" />
+            <span className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.2em]">
               v1.0.0
             </span>
           </div>
