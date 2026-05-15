@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "TEAM CLOUNDMINT | Portfolio",
+  title: "Cloud Mint",
   description: "A cutting-edge team portfolio showcasing our collective vision",
 };
 
