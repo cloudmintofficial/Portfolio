@@ -23,9 +23,10 @@ export default function HeroSection() {
       id="hero"
       className="grid-bg min-h-screen flex items-center justify-center relative overflow-hidden z-[2] bg-transparent"
     >
-      {/* Ambient glow blobs — Enhanced for depth and brightness */}
-      <div className="absolute top-[10%] left-[5%] w-[450px] md:w-[700px] h-[450px] md:h-[700px] bg-[radial-gradient(circle,rgba(0,102,255,0.12)_0%,transparent_70%)] rounded-full blur-[80px] pointer-events-none z-0 opacity-80" />
-      <div className="absolute bottom-[10%] right-[5%] w-[400px] md:w-[600px] h-[400px] md:h-[600px] bg-[radial-gradient(circle,rgba(123,47,255,0.1)_0%,transparent_70%)] rounded-full blur-[80px] pointer-events-none z-0 opacity-70" />
+      {/* Ambient glow blobs — Maximum brightness to remove darkness */}
+      <div className="absolute top-[10%] left-[5%] w-[500px] md:w-[800px] h-[500px] md:h-[800px] bg-[radial-gradient(circle,rgba(0,102,255,0.18)_0%,transparent_75%)] rounded-full blur-[80px] pointer-events-none z-0 opacity-100" />
+      <div className="absolute bottom-[10%] right-[5%] w-[450px] md:w-[700px] h-[450px] md:h-[700px] bg-[radial-gradient(circle,rgba(123,47,255,0.15)_0%,transparent_75%)] rounded-full blur-[80px] pointer-events-none z-0 opacity-90" />
+      <div className="absolute bottom-[-10%] left-1/2 -translate-x-1/2 w-[600px] md:w-[1000px] h-[300px] bg-[radial-gradient(ellipse_at_center,rgba(0,245,255,0.08)_0%,transparent_80%)] rounded-full blur-[60px] pointer-events-none z-0" />
 
       {/* Orbit rings — Refined for a cleaner 'Proper' look */}
       <div className="absolute left-1/2 md:left-auto md:right-[10%] top-[40%] md:top-1/2 -translate-x-1/2 md:translate-x-0 -translate-y-1/2 w-[300px] md:w-[360px] h-[300px] md:h-[360px] pointer-events-none z-[1] opacity-50 md:opacity-80 scale-90 md:scale-100">
