@@ -136,7 +136,7 @@ export default function HeroSection() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.2, duration: 0.8 }}
-          className="flex gap-10 md:gap-16 pt-8 border-t border-[rgba(255,255,255,0.05)] flex-wrap"
+          className="flex gap-10 md:gap-16 pt-8 pb-12 border-t border-[rgba(255,255,255,0.05)] flex-wrap"
         >
           {stats.map((stat, i) => (
             <div key={i} className="flex flex-col gap-1.5">

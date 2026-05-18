@@ -1,9 +1,13 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend(process.env.RESEND_API_KEY || 'missing_key');
 
 export async function POST(req: Request) {
+  if (!process.env.RESEND_API_KEY) {
+    return NextResponse.json({ error: 'System configuration error: Missing communication key.' }, { status: 500 });
+  }
+
   try {
     const { name, email, message } = await req.json();
 

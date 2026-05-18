@@ -31,7 +31,7 @@ export default function CustomCursor() {
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
-      if (target.tagName === "A" || target.tagName === "BUTTON" || target.closest("button") || target.closest("a")) {
+      if (target.tagName === "A" || target.tagName === "BUTTON" || target.closest("button") || target.closest("a") || target.tagName === "INPUT" || target.tagName === "TEXTAREA") {
         if (cursorRef.current) {
           cursorRef.current.style.width = "20px";
           cursorRef.current.style.height = "20px";
