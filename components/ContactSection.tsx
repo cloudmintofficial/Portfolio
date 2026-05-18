@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 const channels = [
   { icon: "◈", label: "EMAIL", value: "cloudmint.official.in@gmail.com", link: "mailto:cloudmint.official.in@gmail.com" },
   { icon: "⬡", label: "TWITTER", value: "@cloudmint", link: "#" },
-  { icon: "◎", label: "GITHUB", value: "github.com/cloudmint", link: "https://github.com/CLOUD-MINT-CO" },
+  { icon: "◎", label: "GITHUB", value: "github.com/cloudmintofficial", link: "https://github.com/cloudmintofficial" },
   { icon: "△", label: "LINKEDIN", value: "/company/cloudmint", link: "https://www.linkedin.com/in/cloud-mint-95964840a/" },
 ];
 

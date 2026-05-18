@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
+import logoIcon from "../../icon.png";
 
 const navLinks = [
   { label: "HOME", href: "#hero", id: "01" },
@@ -52,10 +54,7 @@ export default function Navbar() {
           whileHover={{ scale: 1.05 }}
           className="flex items-center gap-2.5 cursor-none"
         >
-          <div className="w-8 h-8 border border-[rgba(0,245,255,0.6)] flex items-center justify-center relative">
-            <div className="w-2 h-2 bg-[var(--accent-cyan)] shadow-[0_0_12px_var(--accent-cyan)]" />
-            <div className="absolute -inset-1 border border-[rgba(0,245,255,0.2)] animate-[spin_8s_linear_infinite]" />
-          </div>
+          <Image src={logoIcon} alt="Cloudmint Logo" width={32} height={32} className="object-contain" />
           <span className="font-['Orbitron'] text-sm font-bold tracking-[0.3em] text-[var(--accent-cyan)] [text-shadow:0_0_20px_rgba(0,245,255,0.5)]">
             CLOUDMINT
           </span>
