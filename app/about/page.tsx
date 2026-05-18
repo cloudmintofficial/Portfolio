@@ -1,7 +1,7 @@
 "use client";
 
 import AboutSection from "../../components/AboutSection";
-import Navbar from "../Navbar/page";
+import Navbar from "../../components/Navbar";
 import CustomCursor from "../../components/CustomCursor";
 
 export default function AboutPage() {

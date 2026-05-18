@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "./Navbar/page";
+import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import TeamSection from "../components/TeamSection";
 import AboutSection from "../components/AboutSection";

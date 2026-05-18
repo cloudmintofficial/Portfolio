@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 const channels = [
   { icon: "◈", label: "EMAIL", value: "cloudmint.official.in@gmail.com", link: "mailto:cloudmint.official.in@gmail.com" },
-  { icon: "⬡", label: "TWITTER", value: "@cloudmint", link: "#" },
+  { icon: "⬡", label: "TWITTER", value: "@cloudmint", link: "https://twitter.com/cloudmint" },
   { icon: "◎", label: "GITHUB", value: "github.com/cloudmintofficial", link: "https://github.com/cloudmintofficial" },
-  { icon: "△", label: "LINKEDIN", value: "/company/cloudmint", link: "https://www.linkedin.com/in/cloud-mint-95964840a/" },
+  { icon: "△", label: "LINKEDIN", value: "/in/cloud-mint", link: "https://www.linkedin.com/in/cloud-mint-95964840a/" },
 ];
 
 export default function ContactSection() {
@@ -15,10 +15,12 @@ export default function ContactSection() {
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [isSending, setIsSending] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSending(true);
+    setFormError(null);
 
     try {
       const response = await fetch("/api/send", {
@@ -32,10 +34,12 @@ export default function ContactSection() {
         setForm({ name: "", email: "", message: "" }); // Reset form
         setTimeout(() => setSubmitted(false), 4000);
       } else {
-        alert("Transmission failed. Please check your connection.");
+        const errorData = await response.json();
+        setFormError(errorData.error || "Transmission failed. Please check your connection.");
       }
     } catch (err) {
       console.error(err);
+      setFormError("Transmission failed. Please check your connection.");
     } finally {
       setIsSending(false);
     }
@@ -144,6 +148,11 @@ export default function ContactSection() {
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                {formError && (
+                  <div className="p-3 border border-[rgba(255,0,0,0.4)] bg-[rgba(255,0,0,0.05)] text-red-400 font-['Space_Mono'] text-[10px] uppercase tracking-[0.1em] mb-2">
+                    {formError}
+                  </div>
+                )}
                 <div>
                   <label className="font-['Space_Mono'] text-[9px] text-[var(--text-muted)] tracking-[0.3em] block mb-1.5 uppercase">
                     IDENTIFIER

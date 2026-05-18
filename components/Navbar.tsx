@@ -4,13 +4,13 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
-import logoIcon from "../../icon.png";
+import logoIcon from "../icon.png";
 
 const navLinks = [
-  { label: "HOME", href: "#hero", id: "01" },
-  { label: "TEAM", href: "#team", id: "02" },
-  { label: "ABOUT", href: "#about", id: "03" },
-  { label: "CONTACT", href: "#contact", id: "04" },
+  { label: "HOME", href: "/#hero", id: "01" },
+  { label: "TEAM", href: "/#team", id: "02" },
+  { label: "ABOUT", href: "/#about", id: "03" },
+  { label: "CONTACT", href: "/#contact", id: "04" },
 ];
 
 export default function Navbar() {
@@ -29,7 +29,7 @@ export default function Navbar() {
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el && scrollPos >= el.offsetTop && scrollPos < el.offsetTop + el.offsetHeight) {
-          const id = navLinks.find(link => link.href === `#${section}`)?.id;
+          const id = navLinks.find(link => link.href === `/#${section}`)?.id;
           if (id) setActiveLink(id);
         }
       }
@@ -46,7 +46,7 @@ export default function Navbar() {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         className={`fixed top-0 left-0 right-0 z-[1000] flex items-center justify-between transition-all duration-400 ${
-          scrolled || menuOpen ? "py-4 px-6 md:px-12 glass shadow-2xl" : "py-6 px-6 md:px-12 bg-transparent"
+          scrolled || menuOpen ? "py-4 px-6 md:px-12 glass-dark shadow-2xl" : "py-6 px-6 md:px-12 bg-transparent"
         }`}
       >
         {/* Logo */}
