@@ -17,35 +17,34 @@ export default function DataStreams() {
     };
     resize();
 
-    const columns = Math.floor(canvas.width / 22);
+    const columns = Math.floor(canvas.width / 24);
     const drops: number[] = new Array(columns).fill(0).map(() => Math.random() * -50);
-    const chars = "01アイウエオカキクケコCLOUNDMINT∆∑∞⊗⊕▲◆".split("");
+    const chars = "01CLOUDMINT∆∑∞⊗⊕▲◆".split("");
 
     let animId: number;
 
     const draw = () => {
-      // Significantly lighter fade to avoid darkness
-      ctx.fillStyle = "rgba(5, 11, 22, 0.12)";
+      // Mint-tinted fade — much subtler than the original blue
+      ctx.fillStyle = "rgba(6, 13, 15, 0.14)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       for (let i = 0; i < drops.length; i++) {
         const char = chars[Math.floor(Math.random() * chars.length)];
-        const opacity = Math.random() * 0.6 + 0.2; // Peak opacity 0.8
-        ctx.fillStyle = `rgba(0, 160, 255, ${opacity})`;
-        ctx.font = "12px 'Courier New', monospace";
-        ctx.fillText(char, i * 22, drops[i] * 22);
+        const opacity = Math.random() * 0.25 + 0.05;
+        ctx.fillStyle = `rgba(61, 255, 212, ${opacity})`;
+        ctx.font = "11px 'Courier New', monospace";
+        ctx.fillText(char, i * 24, drops[i] * 24);
 
-        if (drops[i] * 22 > canvas.height && Math.random() > 0.98) {
+        if (drops[i] * 24 > canvas.height && Math.random() > 0.98) {
           drops[i] = 0;
         }
-        drops[i] += 0.6;
+        drops[i] += 0.5;
       }
 
       animId = requestAnimationFrame(draw);
     };
 
     draw();
-
     window.addEventListener("resize", resize);
 
     return () => {
@@ -63,8 +62,8 @@ export default function DataStreams() {
         left: 0,
         width: "100%",
         height: "100%",
-        zIndex: 1,          // stays behind all content (sections use zIndex 2+)
-        opacity: 0.7,
+        zIndex: 1,
+        opacity: 0.5,
         pointerEvents: "none",
       }}
     />

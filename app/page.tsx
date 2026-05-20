@@ -1,25 +1,29 @@
-"use client";
+import HeroSection from "@/components/sections/HeroSection";
+import WorkPreview from "@/components/sections/WorkPreview";
+import AboutTeaser from "@/components/sections/AboutTeaser";
+import TeamPreview from "@/components/sections/TeamPreview";
+import StatsBar from "@/components/sections/StatsBar";
+import ServicesPreview from "@/components/sections/ServicesPreview";
+import FAQTeaser from "@/components/sections/FAQTeaser";
+import ContactCTA from "@/components/sections/ContactCTA";
+import WordCycleDivider from "@/components/ui/WordCycleDivider";
+import GlowingLineDivider from "@/components/ui/GlowingLineDivider";
 
-import Navbar from "../components/Navbar";
-import HeroSection from "../components/HeroSection";
-import TeamSection from "../components/TeamSection";
-import AboutSection from "../components/AboutSection";
-import ContactSection from "../components/ContactSection";
-import CustomCursor from "../components/CustomCursor";
-import DataStreams from "../components/DataStreams";
+const TICKER_ITEMS = ["Design", "Engineer", "Automate", "Scale"];
 
-export default function Home() {
+export default function HomePage() {
   return (
     <>
-      <CustomCursor />
-      <DataStreams />
-      <Navbar />
-      <main style={{ position: "relative", zIndex: 2 }}>
-        <HeroSection />
-        <TeamSection />
-        <AboutSection />
-        <ContactSection />
-      </main>
+      <HeroSection />
+      <WordCycleDivider words={TICKER_ITEMS} />
+      <WorkPreview />
+      <AboutTeaser />
+      <ServicesPreview />
+      <GlowingLineDivider />
+      <TeamPreview />
+      <StatsBar />
+      <FAQTeaser />
+      <ContactCTA />
     </>
   );
 }
