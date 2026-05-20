@@ -1,133 +1,183 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { gsap } from "gsap";
-import { hasVisited, markVisited } from "@/lib/storage";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import logoIcon from "@/icon.png";
 
 interface PreloaderProps {
   onComplete: () => void;
 }
 
 export default function Preloader({ onComplete }: PreloaderProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
-  const labelRef = useRef<HTMLDivElement>(null);
+  const [phase, setPhase] = useState(0);
 
   useEffect(() => {
-    if (hasVisited()) {
-      onComplete();
-      return;
-    }
-    markVisited();
-
-    const tl = gsap.timeline({
-      onComplete: () => {
-        gsap.to(containerRef.current, {
-          yPercent: -100,
-          duration: 0.7,
-          ease: "power4.inOut",
-          onComplete,
-        });
-      },
-    });
-
-    tl.fromTo(
-      logoRef.current,
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }
-    )
-      .fromTo(
-        labelRef.current,
-        { opacity: 0 },
-        { opacity: 1, duration: 0.4, ease: "power2.out" },
-        "-=0.2"
-      )
-      .to(barRef.current, {
-        scaleX: 1,
-        duration: 1.2,
-        ease: "power2.inOut",
-      })
-      .to([logoRef.current, labelRef.current], {
-        opacity: 0,
-        y: -10,
-        duration: 0.3,
-        stagger: 0.05,
-      });
-
-    return () => {
-      tl.kill();
-    };
+    // Phase 1: Central vertical line appears (grows height-wise)
+    // Phase 2: Line splits left/right, logo + rotating sci-fi rings reveal
+    // Phase 3: Vault door unlocks (Left/Right split screen exit)
+    const timers = [
+      setTimeout(() => setPhase(1), 100),
+      setTimeout(() => setPhase(2), 800),
+      setTimeout(() => setPhase(3), 1500),
+      setTimeout(() => onComplete(), 2200),
+    ];
+    return () => timers.forEach(clearTimeout);
   }, [onComplete]);
 
   return (
-    <div
-      ref={containerRef}
-      className="fixed inset-0 z-[10000] flex flex-col items-center justify-center"
-      style={{ backgroundColor: "var(--bg-base)" }}
-    >
-      {/* Grid backdrop */}
-      <div className="absolute inset-0 grid-bg opacity-40 pointer-events-none" />
+    <AnimatePresence>
+      {phase < 3 && (
+        <div className="fixed inset-0 z-[10000] pointer-events-none overflow-hidden">
 
-      {/* Logo */}
-      <div ref={logoRef} className="relative mb-8 opacity-0">
-        <div
-          className="text-[clamp(36px,8vw,72px)] font-black tracking-[0.15em] uppercase"
-          style={{
-            fontFamily: "var(--font-display)",
-            color: "var(--text-primary)",
-          }}
-        >
-          CLOUD
-          <span
+          {/* Left Vault Door */}
+          <motion.div
+            initial={{ x: 0 }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
+            className="absolute top-0 left-0 w-1/2 h-full flex justify-end items-center"
             style={{
-              color: "transparent",
-              WebkitTextStroke: "1.5px var(--mint-400)",
+              backgroundColor: "var(--bg-base)",
+              borderRight: "1px solid rgba(61, 255, 212, 0.15)"
             }}
           >
-            MINT
-          </span>
+            {/* Left Gate Line */}
+            <motion.div
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{
+                scaleY: phase >= 1 ? 1 : 0,
+                opacity: phase >= 1 ? 1 : 0,
+                x: phase >= 2 ? -180 : 0
+              }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="w-[1px] h-[320px] md:h-[520px] origin-center"
+              style={{
+                background: "linear-gradient(180deg, transparent, var(--mint-400), transparent)",
+                boxShadow: "0 0 15px var(--mint-400)"
+              }}
+            />
+          </motion.div>
+
+          {/* Right Vault Door */}
+          <motion.div
+            initial={{ x: 0 }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ duration: 1.0, ease: [0.76, 0, 0.24, 1] }}
+            className="absolute top-0 right-0 w-1/2 h-full flex justify-start items-center"
+            style={{
+              backgroundColor: "var(--bg-base)",
+              borderLeft: "1px solid rgba(61, 255, 212, 0.15)"
+            }}
+          >
+            {/* Right Gate Line */}
+            <motion.div
+              initial={{ scaleY: 0, opacity: 0 }}
+              animate={{
+                scaleY: phase >= 1 ? 1 : 0,
+                opacity: phase >= 1 ? 1 : 0,
+                x: phase >= 2 ? 180 : 0
+              }}
+              transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+              className="w-[1px] h-[320px] md:h-[520px] origin-center"
+              style={{
+                background: "linear-gradient(180deg, transparent, var(--mint-400), transparent)",
+                boxShadow: "0 0 15px var(--mint-400)"
+              }}
+            />
+          </motion.div>
+
+          {/* Central Content Container (Hologram Reveal) */}
+          <motion.div
+            className="absolute inset-0 flex flex-col items-center justify-center z-20"
+            exit={{ opacity: 0, scale: 0.9, filter: "blur(15px)" }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            {/* Sci-Fi Outer Dashed Ring (Clockwise) */}
+            <motion.div
+              initial={{ rotate: 0, opacity: 0, scale: 0.8 }}
+              animate={{
+                rotate: phase >= 2 ? 360 : 0,
+                opacity: phase >= 2 ? 0.25 : 0,
+                scale: phase >= 2 ? 1 : 0.8
+              }}
+              transition={{
+                rotate: { duration: 12, ease: "linear", repeat: Infinity },
+                opacity: { duration: 1.0 },
+                scale: { duration: 1.0 }
+              }}
+              className="absolute rounded-full"
+              style={{
+                width: "280px",
+                height: "280px",
+                border: "2px dashed var(--mint-400)",
+                boxShadow: "0 0 20px rgba(61, 255, 212, 0.08)"
+              }}
+            />
+
+            {/* Sci-Fi Inner Dashed Ring (Counter-Clockwise) */}
+            <motion.div
+              initial={{ rotate: 0, opacity: 0, scale: 0.85 }}
+              animate={{
+                rotate: phase >= 2 ? -360 : 0,
+                opacity: phase >= 2 ? 0.35 : 0,
+                scale: phase >= 2 ? 1 : 0.85
+              }}
+              transition={{
+                rotate: { duration: 8, ease: "linear", repeat: Infinity },
+                opacity: { duration: 1.0 },
+                scale: { duration: 1.0 }
+              }}
+              className="absolute rounded-full"
+              style={{
+                width: "240px",
+                height: "240px",
+                border: "1px dashed var(--mint-400)",
+                borderStyle: "double dashed",
+                boxShadow: "0 0 15px rgba(61, 255, 212, 0.05)"
+              }}
+            />
+
+            {/* The Literal Logo (Sized Up) */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, filter: "blur(15px)" }}
+              animate={{
+                opacity: phase >= 2 ? 1 : 0,
+                scale: phase >= 2 ? 1 : 0.8,
+                filter: phase >= 2 ? "blur(0px)" : "blur(15px)"
+              }}
+              transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.15 }}
+              className="relative z-10 flex flex-col items-center justify-center"
+            >
+              <Image
+                src={logoIcon}
+                alt="Cloud Mint Logo"
+                width={120}
+                height={120}
+                className="object-contain mix-blend-screen drop-shadow-[0_0_25px_rgba(61,255,212,0.65)]"
+                priority
+              />
+
+              {/* Logo Text (Sized Up) */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: phase >= 2 ? 1 : 0, y: phase >= 2 ? 0 : 20 }}
+                transition={{ duration: 1.2, ease: "easeOut", delay: 0.5 }}
+                className="mt-8 text-[15px] md:text-[18px] font-black tracking-[0.5em] uppercase"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  color: "var(--mint-400)",
+                  textShadow: "0 0 15px rgba(61, 255, 212, 0.5)"
+                }}
+              >
+                CLOUDMINT
+              </motion.div>
+            </motion.div>
+          </motion.div>
+
         </div>
-        {/* Mint glow behind logo */}
-        <div
-          className="absolute inset-x-[-20%] inset-y-[-30%] blur-[60px] -z-10 pointer-events-none"
-          style={{
-            background:
-              "radial-gradient(circle, rgba(61,255,212,0.12) 0%, transparent 70%)",
-          }}
-        />
-      </div>
-
-      {/* Label */}
-      <div
-        ref={labelRef}
-        className="mb-10 opacity-0"
-        style={{
-          fontFamily: "var(--font-mono)",
-          fontSize: "10px",
-          letterSpacing: "0.4em",
-          color: "var(--text-muted)",
-          textTransform: "uppercase",
-        }}
-      >
-        INITIALISING EXPERIENCE
-      </div>
-
-      {/* Progress bar */}
-      <div
-        className="w-48 h-[1px] overflow-hidden"
-        style={{ background: "var(--border-dim)" }}
-      >
-        <div
-          ref={barRef}
-          className="h-full origin-left"
-          style={{
-            background:
-              "linear-gradient(to right, var(--mint-400), var(--teal-accent))",
-            transform: "scaleX(0)",
-          }}
-        />
-      </div>
-    </div>
+      )}
+    </AnimatePresence>
   );
 }
