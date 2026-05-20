@@ -19,8 +19,8 @@ export default function Preloader({ onComplete }: PreloaderProps) {
     const timers = [
       setTimeout(() => setPhase(1), 100),
       setTimeout(() => setPhase(2), 800),
-      setTimeout(() => setPhase(3), 2000),
-      setTimeout(() => onComplete(), 2500),
+      setTimeout(() => setPhase(3), 1500),
+      setTimeout(() => onComplete(), 2200),
     ];
     return () => timers.forEach(clearTimeout);
   }, [onComplete]);
