@@ -44,7 +44,7 @@ export default function ContactCTA() {
           className="text-base leading-relaxed mb-10 max-w-[440px] mx-auto"
           style={{ fontFamily: "var(--font-body)", color: "var(--text-secondary)" }}
         >
-          Tell us about your project. We'll get back within 24 hours.
+          Tell us about your project. We&apos;ll get back within 24 hours.
         </motion.p>
 
         <motion.div

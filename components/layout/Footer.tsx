@@ -1,4 +1,5 @@
 import { Mail } from "lucide-react";
+import Link from "next/link";
 
 const footerNav = [
   { label: "Work",     href: "/work" },
@@ -54,12 +55,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
           {/* Brand */}
           <div>
-            <a href="/" className="no-underline cursor-none inline-block mb-4">
+            <Link href="/" className="no-underline cursor-none inline-block mb-4">
               <span className="text-xl font-black tracking-[0.2em] glow-mint"
                 style={{ fontFamily: "var(--font-display)", color: "var(--mint-400)" }}>
                 CLOUDMINT
               </span>
-            </a>
+            </Link>
             <p className="text-sm leading-relaxed max-w-[260px]"
               style={{ fontFamily: "var(--font-body)", color: "var(--text-muted)" }}>
               A collective pushing the boundaries of design, engineering, and digital experiences.
@@ -74,13 +75,13 @@ export default function Footer() {
             </p>
             <div className="flex flex-col gap-3">
               {footerNav.map((link) => (
-                <a key={link.label} href={link.href}
+                <Link key={link.label} href={link.href}
                   className="no-underline cursor-none w-fit group">
                   <span className="text-sm transition-colors duration-200 text-[var(--text-secondary)] group-hover:text-[var(--mint-400)]"
                     style={{ fontFamily: "var(--font-body)" }}>
                     {link.label}
                   </span>
-                </a>
+                </Link>
               ))}
             </div>
           </div>
