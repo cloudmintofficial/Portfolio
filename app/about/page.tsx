@@ -42,17 +42,17 @@ export default function AboutPage() {
               We believe the best work happens at the intersection of disciplines. When designers understand code, and engineers care about typography, magic happens.
             </p>
             <p className="mb-10">
-              Every line of code, every design decision, every strategic move is made with one question in mind: does this push the boundaries of what's possible on the web?
+              Every line of code, every design decision, every strategic move is made with one question in mind: does this push the boundaries of what&apos;s possible on the web?
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-10 border-t" style={{ borderColor: "var(--border-dim)" }}>
               <div>
                 <h3 className="text-xl font-bold mb-3" style={{ color: "var(--mint-400)" }}>01. Performance First</h3>
-                <p className="text-sm">We don't compromise on speed. If it's not sub-second, it's not done. We optimize at every layer.</p>
+                <p className="text-sm">We don&apos;t compromise on speed. If it&apos;s not sub-second, it&apos;s not done. We optimize at every layer.</p>
               </div>
               <div>
                 <h3 className="text-xl font-bold mb-3" style={{ color: "var(--mint-400)" }}>02. Design Engineering</h3>
-                <p className="text-sm">We don't do "handoffs". Our designers code, and our engineers design. It's a single continuous process.</p>
+                <p className="text-sm">We don&apos;t do &quot;handoffs&quot;. Our designers code, and our engineers design. It&apos;s a single continuous process.</p>
               </div>
             </div>
           </div>

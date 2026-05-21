@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import dynamic from "next/dynamic";
 import Image from "next/image";
 import Button from "@/components/ui/Button";
 import Preloader from "@/components/effects/Preloader";
@@ -19,7 +18,10 @@ export default function HeroSection() {
   const blobY1 = useTransform(scrollY, [0, 600], [0, -80]);
   const blobY2 = useTransform(scrollY, [0, 600], [0, -50]);
 
-  useEffect(() => setReady(true), []);
+  useEffect(() => {
+    const handle = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(handle);
+  }, []);
 
   if (!ready) return null;
 
